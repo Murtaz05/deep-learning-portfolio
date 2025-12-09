@@ -1,5 +1,3 @@
-README.txt
-
 Title: Image Generation Using Diffusion models
 Author: Muhammad Murtaza Nadeem
 Course: Deep Learning
