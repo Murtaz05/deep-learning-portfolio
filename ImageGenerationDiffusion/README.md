@@ -41,7 +41,7 @@ ImageGenerationDiffusion/
 
 ```bash
 pip install torch torchvision pillow
-python msds24040_05.py   # trains the model
+python train.py   # trains the model
 ```
 
 Then open `test_single_sample.ipynb` to run inference: denoise a sample from pure noise and visualize the result, using the included `denoise_model.pth`.
@@ -50,7 +50,7 @@ Then open `test_single_sample.ipynb` to run inference: denoise a sample from pur
 
 ```
 model.py                    # noise schedule, time embedding, denoiser architecture
-msds24040_05.py               # dataset loading + training script
+train.py                      # dataset loading + training script
 main.ipynb                     # notebook version of the training pipeline
 test_single_sample.ipynb        # inference: denoise one sample, visualize
 denoise_model.pth                # trained weights (included)

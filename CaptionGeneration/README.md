@@ -45,7 +45,6 @@ imports.py             # shared imports used across the other files
 train.py                # training loop
 test.py                 # test-split caption generation
 test_eval.py            # single-image caption + visualization
-msds24040_03_task1.py   # standalone script: full pipeline in one file (data -> train -> eval)
 task1.ipynb              # notebook version of the same pipeline
 tokenizer.pkl             # fitted vocabulary (included)
 ```

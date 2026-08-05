@@ -48,7 +48,6 @@ model.py                 # MiniTransformer: decoder-only architecture
 data_utils.py              # dataset loading, tokenization, padding/masking
 train.py                    # training loop: early stopping, LR scheduling, BLEU tracking
 test.py                      # interactive top-k/top-p answer generation
-msds24040_04_task1.py         # standalone script: full pipeline in one file
 main.ipynb                     # notebook version of the same pipeline
 ```
 
