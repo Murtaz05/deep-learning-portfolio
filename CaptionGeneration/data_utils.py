@@ -1,6 +1,9 @@
+import os
 from imports import *
 
-caption_file = '/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/captions.txt' 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, "dataset")
+caption_file = os.path.join(DATASET_DIR, "captions.txt")
 df = pd.read_csv(caption_file)
 
 # Group and convert to a dictionary directly using pandas

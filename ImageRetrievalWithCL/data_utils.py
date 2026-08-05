@@ -7,11 +7,8 @@ from sklearn.model_selection import train_test_split
 from torchvision import transforms
 
 import os
-# print("Current Working Directory:", os.getcwd())
-os.chdir('/home/murtaza/University_Data/deep_learning/assignment2/murtaza_msds24040_02')
-# print(os.getcwd())
 
-dataset_path = "../caltech-101"
+dataset_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dataset", "caltech-101")
 image_paths = []
 labels = []
 classes = os.listdir(dataset_path)

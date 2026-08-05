@@ -5,9 +5,6 @@ from data_utils import load_transformed_batched_data
 import torch.optim as optim
 from utils import contrastive_loss, metrics, predict_label
 import os
-# print("Current Working Directory:", os.getcwd())
-os.chdir('/home/murtaza/University_Data/deep_learning/assignment2/murtaza_msds24040_02')
-# print(os.getcwd())
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

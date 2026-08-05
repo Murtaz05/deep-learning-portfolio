@@ -7,9 +7,10 @@ from src.utils import load_model
 import matplotlib.pyplot as plt
 
 
-os.chdir("/home/murtaza/University_Data/deep_learning/murtaza_msds24040_01/task1")
-df_raw = pd.read_csv("./dataset/california_housing_train.csv")
-test_df = pd.read_csv("./dataset/california_housing_test.csv")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "dataset")
+df_raw = pd.read_csv(os.path.join(DATA_DIR, "california_housing_train.csv"))
+test_df = pd.read_csv(os.path.join(DATA_DIR, "california_housing_test.csv"))
 
 
 batch_size = 32  # Define a batch size

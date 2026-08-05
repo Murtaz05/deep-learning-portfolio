@@ -1,136 +1,57 @@
+# Question Answering with a Custom Transformer
 
-# Question Answering with MiniTransformer
+A generative QA system: given a question's title and description, a from-scratch decoder-only Transformer (GPT-style) generates a natural-language answer. Built to understand transformer internals rather than fine-tuning a pretrained LM.
 
-This project implements a generative Question Answering system using a custom Transformer model trained on question-answer pairs. The model is based on a simplified GPT-style decoder architecture and is capable of generating natural language answers from input questions using top-k/top-p decoding.
+## Model
 
----
+- Custom `MiniTransformer`: 2 decoder layers, `d_model=256`, 8 attention heads, learned token embeddings + positional encodings, causal self-attention, linear output projection.
+- Tokenization via HuggingFace's `AutoTokenizer` (GPT tokenizer); padding tokens masked with `-100` so they don't contribute to the loss.
+- Title + description concatenated as the input; the answer is the training target.
 
-## 📁 Project Structure
+## Training
+
+- CrossEntropyLoss (padding ignored), Adam optimizer, CosineAnnealingLR schedule.
+- Early stopping after 3 epochs with no validation-loss improvement.
+- Tracked per epoch: train/val loss, perplexity, BLEU score.
+- Generation uses top-k/top-p sampling (`test.py`).
+
+## Observations
+
+- Validation loss decreased steadily and consistently — no signs of instability once padding was handled correctly (this was the trickiest part to get right).
+- Ran into CUDA out-of-memory errors initially; fixed by lowering batch size.
+- More training data would likely improve results further — BLEU/perplexity were tracked but the dataset used is relatively small for a generative task.
+
+## Dataset
+
+A Stack Overflow-style Q&A dataset (`Questions.csv`, `Answers.csv`, `Tags.csv`) — e.g. the [Stack Overflow "10% sample" dataset on Kaggle](https://www.kaggle.com/datasets/stackoverflow/pythonquestions). Not included in this repo. Place it here:
 
 ```
-project/
-├── rollNumber_04_task1.py   # Main script that connects all modules: training, testing, and plotting
-├── train.py                 # Training script with early stopping, perplexity, BLEU score, and checkpointing
-├── test.py                  # Interactive answer generation using top-k/top-p decoding
-├── model.py                 # Model definition: MiniTransformer (GPT-style decoder)
-├── data_utils.py            # Dataset class and preprocessing functions
-├── weights/                 # Directory to store model checkpoints
-├── README.md                # Project documentation
+TransformerQA/
+  dataset/
+    Questions.csv
+    Answers.csv
+    Tags.csv
 ```
 
----
-
-## 🚀 How to Run
-
-### 1. Install Dependencies
+## Setup
 
 ```bash
-pip install torch numpy matplotlib nltk transformers
+pip install -r requirements.txt
+python train.py   # trains, tracks loss/perplexity/BLEU, saves the best checkpoint
+python test.py    # interactive: type a question, get a generated answer
 ```
 
-### 2. Prepare the Dataset
+## Project structure
 
-Ensure your dataset is split into train and validation DataFrames, with the following columns:
-
-- question_text — the question title or description
-- answer_body — the corresponding natural language answer
-
-Customize the tokenization and masking logic in data_utils.py accordingly.
-
-### 3. Train the Model
-
-```bash
-python train.py
+```
+model.py                 # MiniTransformer: decoder-only architecture
+data_utils.py              # dataset loading, tokenization, padding/masking
+train.py                    # training loop: early stopping, LR scheduling, BLEU tracking
+test.py                      # interactive top-k/top-p answer generation
+msds24040_04_task1.py         # standalone script: full pipeline in one file
+main.ipynb                     # notebook version of the same pipeline
 ```
 
-This will:
-- Train the MiniTransformer model
-- Track training/validation loss and perplexity
-- Compute BLEU score after each epoch
-- Save the best model in weights/best_model.pt
+## Stack
 
-### 4. Run Evaluation (Interactive)
-
-```bash
-python test.py
-```
-
-This script:
-- Loads the best model from weights/
-- Accepts a user question as input
-- Generates a natural language answer using top-k/top-p decoding
-
----
-
-## 📦 Module Descriptions
-
-- model.py  
-  Contains the MiniTransformer class — a decoder-only transformer model with positional encodings, causal attention, and output projection layer.
-
-- data_utils.py  
-  Defines the QADataset class and tokenization functions. Includes masking for padded tokens and converts text to PyTorch tensors.
-
-- train.py  
-  Implements the training loop with early stopping and learning rate scheduling. Tracks:
-  - Loss and Perplexity
-  - BLEU score on validation set
-  - Saves training history for plotting
-
-- test.py  
-  Loads the best model checkpoint and runs interactive QA generation with sampling strategies.
-
-- rollNumber_04_task1.py  
-  Main script to run the end-to-end pipeline in a notebook or script. Can call training, evaluation, and plotting from here.
-
----
-
-## 📊 Visualizations
-
-- Training and validation loss and perplexity are saved during training.
-- Use matplotlib to visualize after training:
-
-```python
-import matplotlib.pyplot as plt
-plt.plot(history['train_loss'], label='Train Loss')
-plt.plot(history['val_loss'], label='Val Loss')
-plt.plot(history['bleu'], label='BLEU Score')
-plt.legend()
-plt.show()
-```
-
----
-
-## 🧠 Model Features
-
-- Decoder-only Transformer architecture
-- Positional Encoding
-- CrossEntropy Loss with padding ignored
-- Learning rate scheduling (Cosine Annealing)
-- Early stopping to prevent overfitting
-- Top-k and top-p sampling for answer generation
-- BLEU score evaluation
-
----
-
-## ✅ Requirements
-
-- Python 3.7+
-- PyTorch
-- HuggingFace Transformers
-- NLTK (for BLEU score)
-- Matplotlib (for plotting)
-
----
-
-## 📌 Notes
-
-- You may adjust max generation length and sampling parameters in test.py
-- Make sure vocab size matches between training and loading (keep tokenizer fixed)
-- Avoid loading mismatched model/tokenizer versions
-
----
-
-## 👤 Author
-
-- Roll Number: [Your Roll Number]
-- Task: 1 — Generative QA using Transformers
+PyTorch, HuggingFace `transformers` (tokenizer only — the model itself is custom), NLTK (BLEU scoring).

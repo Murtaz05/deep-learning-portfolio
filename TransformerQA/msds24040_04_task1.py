@@ -10,7 +10,8 @@ import re
 from bs4 import BeautifulSoup
 
 # %%
-dataset_folder_path = '/home/murtaza/University_Data/deep_learning/assignment4/dataset'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+dataset_folder_path = os.path.join(SCRIPT_DIR, "dataset")
 
 # %%
 answers_df = pd.read_csv(f'{dataset_folder_path}/Answers.csv', encoding='latin1')

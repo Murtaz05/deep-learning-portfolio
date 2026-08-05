@@ -13,18 +13,13 @@ import torch.optim as optim
 from sklearn.metrics import classification_report
 import matplotlib.pyplot as plt
 
-import os
-print("Current Working Directory:", os.getcwd())
-os.chdir('/home/murtaza/University_Data/deep_learning/assignment2/murtaza_msds24040_02')
-print(os.getcwd())
-
 # %% [markdown]
 # data_utils
 
 # %%
 
-
-dataset_path = "../caltech-101"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+dataset_path = os.path.join(SCRIPT_DIR, "dataset", "caltech-101")
 image_paths = []
 labels = []
 classes = os.listdir(dataset_path)

@@ -35,7 +35,9 @@ import math
 
 # %%
 
-caption_file = '/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/captions.txt' 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, "dataset")
+caption_file = os.path.join(DATASET_DIR, "captions.txt")
 df = pd.read_csv(caption_file)
 
 # Group and convert to a dictionary directly using pandas
@@ -257,7 +259,7 @@ captioning_model.summary()
 # %%
 
 # --- Data Preparation ---
-image_dir = '/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/Images'
+image_dir = os.path.join(DATASET_DIR, "Images")
 train_dataset = FlickrDataset(image_dir, train_data, tokenizer, max_length=max_caption_length)
 val_dataset = FlickrDataset(image_dir, val_data, tokenizer,  max_length=max_caption_length)
 test_dataset = FlickrDataset(image_dir, test_data, tokenizer, max_length=max_caption_length)
@@ -503,7 +505,7 @@ for i in range(5):
 # %%
 # Test_eval
 
-eval_image_path = "/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/Images/667626_18933d713e.jpg"
+eval_image_path = os.path.join(DATASET_DIR, "Images", "667626_18933d713e.jpg")
 eval_image_tensor = image_preprocessing(eval_image_path)
 
 # Load the trained weights

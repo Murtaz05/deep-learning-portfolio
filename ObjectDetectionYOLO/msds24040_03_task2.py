@@ -10,8 +10,10 @@ from ultralytics import YOLO
 # %%
 
 # Define paths
-image_dir = "/home/murtaza/University_Data/deep_learning/assignment3/Task_02_vehicles_dataset/images"
-label_dir = "/home/murtaza/University_Data/deep_learning/assignment3/Task_02_vehicles_dataset/labels"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, "dataset")
+image_dir = os.path.join(DATASET_DIR, "images")
+label_dir = os.path.join(DATASET_DIR, "labels")
 
 # Get all image files
 image_files = sorted(os.listdir(image_dir))
@@ -73,8 +75,8 @@ copy_files(val_df, "val")
 
 
 # %%
-data_yaml = """
-path: /home/murtaza/University_Data/deep_learning/assignment3/murtaza_msds24040_03/Task2/yolo_dataset
+data_yaml = f"""
+path: {os.path.join(SCRIPT_DIR, "yolo_dataset")}
 train: images/train
 val: images/val
 
@@ -82,7 +84,7 @@ nc: 1
 names: ['vehicle']
 """
 
-with open("/home/murtaza/University_Data/deep_learning/assignment3/murtaza_msds24040_03/Task2/yolo_dataset/data.yaml", "w") as f:
+with open(os.path.join(base_dir, "data.yaml"), "w") as f:
     f.write(data_yaml.strip())
 
 print("data.yaml created.")
@@ -156,9 +158,9 @@ for r in results_small:
 
 
 # %%
-image_path = '/home/murtaza/University_Data/deep_learning/assignment3/Task_02_vehicles_dataset/images/00 (103).jpg'
+image_path = os.path.join(DATASET_DIR, "images", "00 (103).jpg")
 
-label_path = '/home/murtaza/University_Data/deep_learning/assignment3/Task_02_vehicles_dataset/labels/00 (103).txt'
+label_path = os.path.join(DATASET_DIR, "labels", "00 (103).txt")
 
 # visualize_prediction_vs_groundtruth(image_path, label_path)
 

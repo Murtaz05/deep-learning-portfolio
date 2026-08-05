@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+torch
+torchvision
+Pillow
+nltk
+tensorflow>=2.8.0  # Adjust if you're using a specific version
+matplotlib
+tqdm

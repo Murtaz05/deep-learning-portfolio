@@ -7,10 +7,9 @@ from data_utils import transform
 
 
 import os
-print("Current Working Directory:", os.getcwd())
-os.chdir('/home/murtaza/University_Data/deep_learning/assignment2/murtaza_msds24040_02')
-print(os.getcwd())
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, "dataset", "caltech-101")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -21,9 +20,9 @@ model.to(device)  # Move to GPU if available
 model.eval()  # Set to evaluation mode
 
 
-img_path1 = '../caltech-101/BACKGROUND_Google/image_0221.jpg'
-img_path2 = '../caltech-101/BACKGROUND_Google/image_0004.jpg'
-img_path2 = '../caltech-101/anchor/image_0013.jpg'
+img_path1 = os.path.join(DATASET_DIR, "BACKGROUND_Google", "image_0221.jpg")
+img_path2 = os.path.join(DATASET_DIR, "BACKGROUND_Google", "image_0004.jpg")
+img_path2 = os.path.join(DATASET_DIR, "anchor", "image_0013.jpg")
 
 img1 = Image.open(img_path1).convert("RGB")
 img2 = Image.open(img_path2).convert("RGB")

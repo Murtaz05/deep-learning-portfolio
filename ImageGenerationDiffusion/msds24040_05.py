@@ -51,7 +51,7 @@ class AnimalDataset(Dataset):
 # Example usage:
 if __name__ == "__main__":
     selected_classes = ['Bear', 'Bird', 'Cat', 'Cow', 'Deer']
-    dataset = AnimalDataset(root_dir='../animal_data', selected_classes=selected_classes)
+    dataset = AnimalDataset(root_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dataset', 'animal_data'), selected_classes=selected_classes)
     dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
 
     # Test one batch

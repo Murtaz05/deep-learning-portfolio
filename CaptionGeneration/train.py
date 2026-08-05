@@ -6,7 +6,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 from imports import *
-from data_utils import train_data, val_data ,FlickrDataset, dataset_generator, image_preprocessing, text_preprocessing, BLEUCallback
+from data_utils import train_data, val_data ,FlickrDataset, dataset_generator, image_preprocessing, text_preprocessing, BLEUCallback, DATASET_DIR
 from model import create_captioning_model
 
 
@@ -38,7 +38,7 @@ captioning_model = create_captioning_model(vocab_size, max_caption_length)
 
 
 # --- Data Preparation ---
-image_dir = '/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/Images'
+image_dir = os.path.join(DATASET_DIR, "Images")
 train_dataset = FlickrDataset(image_dir, train_data, tokenizer, max_length=max_caption_length)
 val_dataset = FlickrDataset(image_dir, val_data, tokenizer,  max_length=max_caption_length)
 

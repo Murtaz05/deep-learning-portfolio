@@ -1,7 +1,8 @@
+import os
 from imports import *
 from model import create_captioning_model
 from train import vocab_size, max_caption_length
-from data_utils import FlickrDataset, test_data
+from data_utils import FlickrDataset, test_data, DATASET_DIR
 
 captioning_model = create_captioning_model(vocab_size, max_caption_length)
 # Load the trained weights
@@ -10,7 +11,7 @@ captioning_model.load_weights('best_model.weights.h5')
 with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
 
-image_dir = '/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/Images'
+image_dir = os.path.join(DATASET_DIR, "Images")
 
 test_dataset = FlickrDataset(image_dir, test_data, tokenizer, max_length=max_caption_length)
 

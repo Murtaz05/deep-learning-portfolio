@@ -1,17 +1,17 @@
 from imports import *
-from data_utils import image_preprocessing
+from data_utils import image_preprocessing, DATASET_DIR
 from model import create_captioning_model
 from train import max_caption_length, vocab_size
 from test import generate_caption
 # Test_eval
 
-eval_image_path = "/home/murtaza/University_Data/deep_learning/assignment3/Task_01_dataset_flicker/Images/667626_18933d713e.jpg"
+eval_image_path = os.path.join(DATASET_DIR, "Images", "667626_18933d713e.jpg")
 eval_image_tensor = image_preprocessing(eval_image_path)
 
 
 captioning_model = create_captioning_model(vocab_size, max_caption_length)
 # Load the trained weights
-captioning_model.load_weights('/home/murtaza/University_Data/deep_learning/assignment3/murtaza_msds24040_03/Task1/best_model.weights.h5')
+captioning_model.load_weights('best_model.weights.h5')
 
 with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pickle.load(f)
