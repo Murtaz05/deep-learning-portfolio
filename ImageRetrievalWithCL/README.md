@@ -2,6 +2,10 @@
 
 A Siamese network trained with contrastive loss to decide whether two images belong to the same class — the model never sees class labels directly during the similarity task, only pairs of images and a same/different signal.
 
+## Architecture
+
+Both branches of the Siamese network share a single ImageNet-pretrained **ResNet50** (`torchvision.models.resnet50(pretrained=True)`) as the backbone, with its final classification layer replaced by a custom projection head (2048 → 512 → 128) producing an L2-normalized embedding. Similarity between two images is the Euclidean distance between their embeddings.
+
 ## Approach
 
 1. **Balanced pair sampling** — the data loader constructs balanced same-class/different-class image pairs from Caltech-101 so the model can't shortcut by predicting the majority class.
@@ -60,4 +64,4 @@ graphs/          # accuracy/precision/recall/F1/loss curves across training
 
 ## Stack
 
-PyTorch, torchvision (ResNet-style backbone), scikit-learn (metrics).
+PyTorch, torchvision (ResNet50 backbone, ImageNet-pretrained), scikit-learn (metrics).
